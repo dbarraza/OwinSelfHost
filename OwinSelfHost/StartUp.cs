@@ -1,4 +1,6 @@
-﻿using Owin;
+﻿using System.Web.Http;
+using Owin;
+using OwinSelfHost.Components;
 
 namespace OwinSelfHost
 {
@@ -6,7 +8,20 @@ namespace OwinSelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            appBuilder.UseWelcomePage();
+            appBuilder.Use<LoggerComponent>();
+            ConfigWebApi(appBuilder);
+            appBuilder.Use<CustomPageComponent>();
+        }
+
+        private void ConfigWebApi(IAppBuilder appBuilder)
+        {
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new {id = RouteParameter.Optional});
+
+            appBuilder.UseWebApi(config);
         }
     }
 }
