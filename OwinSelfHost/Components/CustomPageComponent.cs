@@ -15,7 +15,8 @@ namespace OwinSelfHost.Components
         {
             _next = next;
         }
-
+        
+        //Comment from GitHub
         public async Task Invoke(IDictionary<string, object> enviroment)
         {
             var response = enviroment["owin.ResponseBody"] as Stream;
